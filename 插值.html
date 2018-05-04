@@ -1,0 +1,48 @@
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <title>插值测试</title>
+  <style>
+    canvas {
+      border: 1px solid gray;
+    }
+  </style>
+
+</head>
+
+<body>
+  <p>证明多次分级缩小可以明显弱化缩小后的（文字）锯齿问题</p>
+  <canvas id="canvas1" width="3000" height="3000"></canvas>
+</body>
+<script>var can = document.getElementById('canvas1');
+  var ctx = can.getContext('2d');
+
+  var img = new Image();
+  var w = 3709;
+  var h = 2480;
+  img.onload = function () {
+    // step it down only once to 1/6 size:
+    ctx.drawImage(img, 0, 0, w / 6, h / 6);
+
+    // Step it down several times
+    var can2 = document.createElement('canvas');
+    can2.width = w / 2;
+    can2.height = w / 2;
+    var ctx2 = can2.getContext('2d');
+
+    // Draw it at 1/2 size 3 times (step down three times)
+
+    ctx2.drawImage(img, 0, 0, w / 2, h / 2);
+    ctx2.drawImage(can2, 0, 0, w / 2, h / 2, 0, 0, w / 4, h / 4);
+    ctx2.drawImage(can2, 0, 0, w / 4, h / 4, 0, 0, w / 6, h / 6);
+    ctx.drawImage(can2, 0, 0, w / 6, h / 6, 0, 200, w / 6, h / 6);
+  }
+
+
+
+  img.src = 'WechatIMG9265.jpeg'</script>
+
+</html>
